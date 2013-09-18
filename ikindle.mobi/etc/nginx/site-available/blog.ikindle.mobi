@@ -5,9 +5,13 @@ server {
     root /home/okidogi/www/blog.ikindle.mobi/public_html;
 
     location / {
-        index index.php;
+        index index.php index index.html index.htm;
+        try_files $uri $uri/ /index.php?$args ;
     }
-
+	
+	# Add trailing slash to */wp-admin requests.
+    rewrite /wp-admin$ $scheme://$host$uri/ permanent;    
+	
     location ~ \.php$ {
         try_files $uri =404;
         include /etc/nginx/fastcgi_params;
